@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MinimalAPI.Data;
 
@@ -15,7 +17,9 @@ builder.Services.AddDbContext<LivrosContext>(options =>
 var app = builder.Build();
 
 // EndPoint Area
-    //app.MapGet();
+    app.MapGet("TesteGet/{id}", (int id) => {
+        return Results.Ok(id);
+    });
 // EndPoint Area
 app.Run();
 
