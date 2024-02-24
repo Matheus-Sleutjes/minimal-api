@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "c:\\minimal-api\\minimal-api\\MinimalAPI\\MinimalAPI.csproj": {}
+    "C:\\minimal-api\\minimal-api\\MinimalAPI\\MinimalAPI.csproj": {}
   },
   "projects": {
-    "c:\\minimal-api\\minimal-api\\MinimalAPI\\MinimalAPI.csproj": {
+    "C:\\minimal-api\\minimal-api\\MinimalAPI\\MinimalAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\minimal-api\\minimal-api\\MinimalAPI\\MinimalAPI.csproj",
+        "projectUniqueName": "C:\\minimal-api\\minimal-api\\MinimalAPI\\MinimalAPI.csproj",
         "projectName": "MinimalAPI",
-        "projectPath": "c:\\minimal-api\\minimal-api\\MinimalAPI\\MinimalAPI.csproj",
-        "packagesPath": "C:\\Users\\Amanda\\.nuget\\packages\\",
-        "outputPath": "c:\\minimal-api\\minimal-api\\MinimalAPI\\obj\\",
+        "projectPath": "C:\\minimal-api\\minimal-api\\MinimalAPI\\MinimalAPI.csproj",
+        "packagesPath": "C:\\Users\\Trabalho\\.nuget\\packages\\",
+        "outputPath": "C:\\minimal-api\\minimal-api\\MinimalAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Amanda\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Trabalho\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -45,6 +45,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
             "Microsoft.DotNet.ILCompiler": {
               "suppressParent": "All",
               "target": "Package",
@@ -103,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
