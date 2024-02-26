@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MinimalAPI.Domain;
 
 namespace MinimalAPI.Data
 {
-    public class LivrosContext : IdentityDbContext
+    public class LivrosContext : DbContext
     {
         public LivrosContext(DbContextOptions<LivrosContext> options) : base(options) { }
 
@@ -14,5 +13,9 @@ namespace MinimalAPI.Data
         {
             base.OnModelCreating(builder);
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //=> optionsBuilder.UseNpgsql("Host=localhost;Database=livros-db;Username=postgres;Password=loglab");
+
     }
 }

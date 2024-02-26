@@ -1,21 +1,37 @@
 using Microsoft.EntityFrameworkCore;
 using MinimalAPI.Data;
+using MinimalAPI.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<ILivroService, LivroService>();
 
 string sqlConnection = builder.Configuration.GetConnectionString("DefaultConnection")
-                     ??  throw new Exception("Não foi encotrada string de conexão");
+                     ?? throw new Exception("Não foi encotrada string de conexão");
 
-builder.Services.AddDbContext<LivrosContext>(options =>
-                options.UseNpgsql(sqlConnection));
+builder.Services.AddDbContext<LivrosContext>(options => options.UseNpgsql(sqlConnection));
 
 var app = builder.Build();
 
+//Cria banco e roda migration
+var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope();
+var context = serviceScope.ServiceProvider.GetRequiredService<LivrosContext>();
+context.Database.Migrate();
+
 // EndPoint Area
-    //app.MapGet();
+app.MapGet("/{id}", (int id, ILivroService livrosService) => {
+    var model = livrosService.Find(id);
+    return model != null ? Results.Ok(model) : Results.BadRequest("Não existe entidade com esse id");
+});
+
+app.MapPost("/", (Livro model, ILivroService livrosService) => {
+    livrosService.Add(model);
+    return Results.Ok(model.Id);
+});
+
+app.MapGet("/", () => {
+    return "It Works";
+});
 // EndPoint Area
 app.Run();
 
