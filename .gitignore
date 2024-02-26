@@ -11,6 +11,10 @@
 *.sln.docstates
 *./MinimalAPI/obj
 
+./MinimalAPI/.vs
+./MinimalAPI/bin
+./MinimalAPI/obj
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
