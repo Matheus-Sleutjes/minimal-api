@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MinimalAPI.Data;
 using MinimalAPI.Domain;
@@ -13,7 +11,13 @@ string sqlConnection = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<LivrosContext>(options => options.UseNpgsql(sqlConnection));
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 //Cria banco e roda migration
 var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope();

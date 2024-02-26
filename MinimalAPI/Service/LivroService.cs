@@ -13,6 +13,7 @@ public class LivroService : ILivroService
     public void Add(Livro livro)
     {
         _context.Livros.Add(livro);
+        _context.SaveChanges();
     }
 
     public Livro Find(int id)
@@ -23,5 +24,6 @@ public class LivroService : ILivroService
     public void Delete(Livro livro)
     {
         _context.Remove(livro);
+        _context.SaveChanges();
     }
 }
