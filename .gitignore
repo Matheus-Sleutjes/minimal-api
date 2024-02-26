@@ -9,7 +9,10 @@
 *.user
 *.userosscache
 *.sln.docstates
-*./MinimalAPI/obj
+
+MinimalAPI/obj
+MinimalAPI/bin
+MinimalAPI/.vs
 
 ./MinimalAPI/.vs
 ./MinimalAPI/bin
