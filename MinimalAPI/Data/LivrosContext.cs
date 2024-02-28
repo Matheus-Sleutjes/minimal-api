@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MinimalAPI.Domain;
+using MinimalAPI.Entities;
 
 namespace MinimalAPI.Data
 {

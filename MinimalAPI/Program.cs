@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MinimalAPI.Data;
-using MinimalAPI.Domain;
+using MinimalAPI.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +13,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 //Cria banco e roda migration
 var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope();
@@ -22,18 +25,18 @@ var context = serviceScope.ServiceProvider.GetRequiredService<LivrosContext>();
 context.Database.Migrate();
 
 // EndPoint Area
-app.MapGet("/{id}", (int id, ILivroService livrosService) => {
+app.MapGet("Livros/{id}", (int id, ILivroService livrosService) => {
     var model = livrosService.Find(id);
     return model != null ? Results.Ok(model) : Results.BadRequest("Não existe entidade com esse id");
 });
 
-app.MapPost("/", (Livro model, ILivroService livrosService) => {
+app.MapPost("Livros/", (Livro model, ILivroService livrosService) => {
     livrosService.Add(model);
     livrosService.SaveChanges();
     return Results.Ok(model.Id);
 });
 
-app.MapDelete("/{id}", (int id, ILivroService livrosService) => {
+app.MapDelete("Livros/{id}", (int id, ILivroService livrosService) => {
     var model = livrosService.Find(id);
 
     if(model == null)
@@ -44,7 +47,7 @@ app.MapDelete("/{id}", (int id, ILivroService livrosService) => {
     return Results.Ok("Removido com sucesso!");
 });
 
-app.MapPut("/{id}", (int id, Livro request, ILivroService livrosService) => {
+app.MapPut("Livros/{id}", (int id, Livro request, ILivroService livrosService) => {
     var model = livrosService.Find(id);
 
     if(model == null)
@@ -57,13 +60,9 @@ app.MapPut("/{id}", (int id, Livro request, ILivroService livrosService) => {
     return Results.Ok(model);
 });
 
-app.MapGet("/GetAll", (ILivroService livrosService) => {
+app.MapGet("Livros/GetAll", (ILivroService livrosService) => {
     var lista = livrosService.GetAll();
     return Results.Ok(lista);
-});
-
-app.MapGet("/", () => {
-    return "It Works";
 });
 // EndPoint Area
 app.Run();

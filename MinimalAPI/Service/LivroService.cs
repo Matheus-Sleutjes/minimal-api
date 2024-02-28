@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MinimalAPI.Data;
-using MinimalAPI.Domain;
+using MinimalAPI.Entities;
 
 public class LivroService : ILivroService
 {

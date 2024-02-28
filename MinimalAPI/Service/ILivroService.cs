@@ -1,4 +1,5 @@
-using MinimalAPI.Domain;
+
+using MinimalAPI.Entities;
 
 public interface ILivroService
 {
