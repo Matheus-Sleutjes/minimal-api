@@ -9,13 +9,7 @@ namespace MinimalAPI.Data
 
         public DbSet<Livro> Livros { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-        }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //=> optionsBuilder.UseNpgsql("Host=localhost;Database=livros-db;Username=postgres;Password=loglab");
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseNpgsql("Host=localhost;Port=5000;Database=livros-db;Username=postgres;Password=admin");
     }
 }

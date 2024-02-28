@@ -6,10 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<ILivroService, LivroService>();
 
-string sqlConnection = builder.Configuration.GetConnectionString("DefaultConnection")
-                     ?? throw new Exception("Não foi encotrada string de conexão");
-
-builder.Services.AddDbContext<LivrosContext>(options => options.UseNpgsql(sqlConnection));
+builder.Services.AddDbContext<LivrosContext>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -32,7 +29,37 @@ app.MapGet("/{id}", (int id, ILivroService livrosService) => {
 
 app.MapPost("/", (Livro model, ILivroService livrosService) => {
     livrosService.Add(model);
+    livrosService.SaveChanges();
     return Results.Ok(model.Id);
+});
+
+app.MapDelete("/{id}", (int id, ILivroService livrosService) => {
+    var model = livrosService.Find(id);
+
+    if(model == null)
+        return Results.NotFound("Não foi encontrado nenhuma entidade com esse id");
+
+    livrosService.Delete(model);
+    livrosService.SaveChanges();
+    return Results.Ok("Removido com sucesso!");
+});
+
+app.MapPut("/{id}", (int id, Livro request, ILivroService livrosService) => {
+    var model = livrosService.Find(id);
+
+    if(model == null)
+        return Results.NotFound("Não foi encontrado nenhuma entidade com esse id");
+
+    model.Descricao = request.Descricao;
+
+    livrosService.Update(model);
+    livrosService.SaveChanges();
+    return Results.Ok(model);
+});
+
+app.MapGet("/GetAll", (ILivroService livrosService) => {
+    var lista = livrosService.GetAll();
+    return Results.Ok(lista);
 });
 
 app.MapGet("/", () => {
