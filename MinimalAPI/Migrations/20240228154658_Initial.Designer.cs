@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using RestApi.Data;
+using MinimalAPI.Data;
 
 #nullable disable
 
-namespace RestApi.Migrations
+namespace MinimalAPI.Migrations
 {
     [DbContext(typeof(LivrosContext))]
     [Migration("20240228154658_Initial")]
@@ -24,7 +24,7 @@ namespace RestApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("RestApi.Entities.Livro", b =>
+            modelBuilder.Entity("MinimalAPI.Entities.Livro", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
