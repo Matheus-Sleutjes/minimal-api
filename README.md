@@ -1,1 +1,25 @@
-# minimal-api
+# Minimal API .NET8, EntityFramework e Docker
+
+## Sobre o projeto 
+
+Minimal API é um projeto que criei com o objetivo de aprender mais sobre .NET 8 e Docker e Minimal APIs, mas será usado em um artigo científico para eu conseguir comparar Rest API em .NET 8.
+
+## Como executar
+
+Pré requisitos **Docker** e **SDK .NET 8.0** (caso queira debugar).
+
+Clone o projeto com: `https://github.com/Matheus-Sleutjes/rest-api.git`
+
+Acesse o projeto, e execute: `docker compose up --build -d`
+
+Acesse a URL para a documentação: `http://localhost:8080/swagger/index.html` ou [clique aqui](http://localhost:8080/swagger/index.html) para ser redirecionado para o swagger
+
+Pronto! Agora é só se divertir!
+
+## Considerações
+
+Caso queira rodar em modo Debug voce pode executar `docker run --name bd-postgres -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres` para subir uma instância de BD
+
+Caso queira o codigo da RestAPI com EntityFramework em .NET 8.0 [clique aqui](https://github.com/Matheus-Sleutjes/rest-api-ef)
+
+Feito com carinho por Matheus Sleutjes
