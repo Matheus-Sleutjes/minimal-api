@@ -8,7 +8,7 @@ Minimal API é um projeto que criei com o objetivo de aprender mais sobre .NET 8
 
 Pré requisitos **Docker** e **SDK .NET 8.0** (caso queira debugar).
 
-Clone o projeto com: `https://github.com/Matheus-Sleutjes/rest-api.git`
+Clone o projeto com: `https://github.com/Matheus-Sleutjes/minimal-api.git`
 
 Acesse o projeto, e execute: `docker compose up --build -d`
 
