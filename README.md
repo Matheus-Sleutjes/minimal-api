@@ -18,7 +18,7 @@ Pronto! Agora é só se divertir!
 
 ## Considerações
 
-Caso queira rodar em modo Debug voce pode executar `docker run --name bd-postgres -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres` para subir uma instância de BD
+Caso queira rodar em modo Debug voce pode executar `docker run --name db-livros -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres` para subir uma instância de BD
 
 Caso queira o codigo da RestAPI com EntityFramework em .NET 8.0 [clique aqui](https://github.com/Matheus-Sleutjes/rest-api-ef)
 

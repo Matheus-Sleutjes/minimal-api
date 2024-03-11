@@ -1,2 +1,2 @@
-CREATE DATABASE livros-db;
-GRANT ALL PRIVILEGES ON DATABASE livros-db TO postgres;
+CREATE DATABASE db-livros;
+GRANT ALL PRIVILEGES ON DATABASE db-livros TO postgres;
