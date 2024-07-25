@@ -7,9 +7,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: db-livros
+      POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - "5000:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql postgres
   api: # API
