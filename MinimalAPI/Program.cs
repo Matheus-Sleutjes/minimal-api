@@ -22,51 +22,27 @@ var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope()
 var context = serviceScope.ServiceProvider.GetRequiredService<LivrosContext>();
 context.Database.Migrate();
 
-// EndPoint Area
-app.MapGet("Livros/{id}", (int id, ILivroService _livrosService) =>
+#region EntityFramework
+app.MapGet("EFGet/{id}", (int id, ILivroService _livrosService) =>
 {
     var model = _livrosService.Find(id);
     return model != null ? Results.Ok(model) : Results.BadRequest("Não existe entidade com esse id");
 });
 
-app.MapPost("Livros/", (Livro model, ILivroService _livrosService) =>
+app.MapPost("EFPost/", (Livro model, ILivroService _livrosService) =>
 {
     _livrosService.Add(model);
-    _livrosService.SaveChanges();
     return Results.Ok(model.Id);
 });
 
-app.MapDelete("Livros/{id}", (int id, ILivroService _livrosService) =>
+#endregion
+
+#region SQL 
+app.MapPost("SQLPost", (Livro model, ILivroService _livrosService) =>
 {
-    var model = _livrosService.Find(id);
-
-    if (model == null)
-        return Results.NotFound("Não foi encontrado nenhuma entidade com esse id");
-
-    _livrosService.Delete(model);
-    _livrosService.SaveChanges();
-    return Results.Ok("Removido com sucesso!");
+    _livrosService.AddBySql(model, builder.Configuration.GetConnectionString("DefaultConnection"));
+    return Results.Ok();
 });
-
-app.MapPut("Livros/{id}", (int id, Livro request, ILivroService _livrosService) =>
-{
-    var model = _livrosService.Find(id);
-
-    if (model == null)
-        return Results.NotFound("Não foi encontrado nenhuma entidade com esse id");
-
-    model.Descricao = request.Descricao;
-
-    _livrosService.Update(model);
-    _livrosService.SaveChanges();
-    return Results.Ok(model);
-});
-
-app.MapGet("Livros/GetAll", (ILivroService _livrosService) =>
-{
-    var lista = _livrosService.GetAll();
-    return Results.Ok(lista);
-});
-// EndPoint Area
+#endregion
 app.Run();
 
