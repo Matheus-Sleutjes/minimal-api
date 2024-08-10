@@ -3,7 +3,8 @@ using MinimalAPI.Entities;
 
 public interface ILivroService
 {
-    void Add(Livro livro);
-    Livro Find(int id);
+    void AddByEf(Livro livro);
+    Livro GetByEf(int id);
     void AddBySql(Livro livro, string connectionString);
+    Livro GetBySql(int id, string connectionString);
 }

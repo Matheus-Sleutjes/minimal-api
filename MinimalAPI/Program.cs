@@ -4,10 +4,12 @@ using MinimalAPI.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddTransient<ILivroService, LivroService>();
 
 builder.Services.AddDbContext<LivrosContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,26 +25,35 @@ var context = serviceScope.ServiceProvider.GetRequiredService<LivrosContext>();
 context.Database.Migrate();
 
 #region EntityFramework
+
 app.MapGet("EFGet/{id}", (int id, ILivroService _livrosService) =>
 {
-    var model = _livrosService.Find(id);
-    return model != null ? Results.Ok(model) : Results.BadRequest("Não existe entidade com esse id");
+    var entity = _livrosService.GetByEf(id);
+    return entity != null ? Results.Ok(entity) : Results.BadRequest("Não existe entidade com esse id");
 });
 
 app.MapPost("EFPost/", (Livro model, ILivroService _livrosService) =>
 {
-    _livrosService.Add(model);
-    return Results.Ok(model.Id);
+    _livrosService.AddByEf(model);
+    return Results.Ok();
 });
 
 #endregion
 
 #region SQL 
+
+app.MapGet("SQLGet/{id}", (int id, ILivroService _livrosService) =>
+{
+    var entity = _livrosService.GetBySql(id, connectionString);
+    return entity != null ? Results.Ok(entity) : Results.BadRequest("Não existe entidade com esse id");
+});
+
 app.MapPost("SQLPost", (Livro model, ILivroService _livrosService) =>
 {
-    _livrosService.AddBySql(model, builder.Configuration.GetConnectionString("DefaultConnection"));
+    _livrosService.AddBySql(model, connectionString);
     return Results.Ok();
 });
+
 #endregion
 app.Run();
 

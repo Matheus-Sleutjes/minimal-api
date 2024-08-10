@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MinimalAPI.Data;
 using MinimalAPI.Entities;
-using System.Data.SqlClient;
+using Npgsql;
+using System.Data;
 
 public class LivroService : ILivroService
 {
@@ -13,12 +14,11 @@ public class LivroService : ILivroService
 
     public void AddBySql(Livro livro, string connectionString)
     {
+        string sqlScript = "INSERT INTO Livros (Descricao) VALUES (@Descricao)";
+        var parameters = new List<NpgsqlParameter>();
+        parameters.Add(new NpgsqlParameter("@Descricao", livro.Descricao));
 
-    }
-
-    private void ExecutePostSQL(string sqlScript, string connectionString, List<SqlParameter> parameters)
-    {
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
         {
             connection.Open();
 
@@ -26,7 +26,7 @@ public class LivroService : ILivroService
             {
                 try
                 {
-                    using (SqlCommand command = new SqlCommand(sqlScript, connection, transaction))
+                    using (NpgsqlCommand command = new NpgsqlCommand(sqlScript, connection, transaction))
                     {
                         command.Parameters.Add(parameters);
                         command.ExecuteNonQuery();
@@ -43,43 +43,53 @@ public class LivroService : ILivroService
         }
     }
 
-    private void ExecuteGetSQL(string sqlScript, string connectionString, List<SqlParameter> parameters)
+    public Livro GetBySql(int id, string connectionString)
     {
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        var sqlScript = "SELECT * FROM \"Livros\" Where Livros.Id = @Id";
+
+        using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
         {
             connection.Open();
-
             try
             {
-                using (SqlCommand command = new SqlCommand(sqlScript, connection))
+                var lista = new List<Livro>();
+                using (NpgsqlCommand command = new NpgsqlCommand(sqlScript, connection))
                 {
-                    command.Parameters.Add(parameters);
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            int userId = reader.GetInt32(0); // Lê o valor da primeira coluna (UserId)
-                            string name = reader.GetString(1); // Lê o valor da segunda coluna (Name)
+                            int livroId = reader.GetInt32(0);
+                            string descricao = reader.GetString(1);
 
-                            Console.WriteLine($"ID: {userId}, Name: {name}");
+                            var entity = new Livro(livroId, descricao);
+                            lista.Add(entity);
                         }
                     }
                 }
+                return lista.First();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro ao executar o comando SQL: {ex.Message}");
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }
 
-    public void Add(Livro livro)
+    public void AddByEf(Livro livro)
     {
         _context.Livros.Add(livro);
         _context.SaveChanges();
     }
 
-    public Livro Find(int id)
+    public Livro GetByEf(int id)
     {
         return _context.Livros.AsNoTracking().Where(t => t.Id == id).FirstOrDefault();
     }
