@@ -14,9 +14,7 @@ public class LivroService : ILivroService
 
     public void AddBySql(Livro livro, string connectionString)
     {
-        string sqlScript = "INSERT INTO Livros (Descricao) VALUES (@Descricao)";
-        var parameters = new List<NpgsqlParameter>();
-        parameters.Add(new NpgsqlParameter("@Descricao", livro.Descricao));
+        string sqlScript = "INSERT INTO \"Livros\" (\"Descricao\") VALUES (@Descricao)";
 
         using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
         {
@@ -28,7 +26,7 @@ public class LivroService : ILivroService
                 {
                     using (NpgsqlCommand command = new NpgsqlCommand(sqlScript, connection, transaction))
                     {
-                        command.Parameters.Add(parameters);
+                        command.Parameters.AddWithValue("@Descricao", livro.Descricao);
                         command.ExecuteNonQuery();
                     }
 
@@ -45,7 +43,7 @@ public class LivroService : ILivroService
 
     public Livro GetBySql(int id, string connectionString)
     {
-        var sqlScript = "SELECT * FROM \"Livros\" Where Livros.Id = @Id";
+        var sqlScript = "SELECT * FROM \"Livros\" l where l.\"Id\" = @Id LIMIT 100";
 
         using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
         {
