@@ -43,7 +43,7 @@ public class LivroService : ILivroService
 
     public Livro GetBySql(int id, string connectionString)
     {
-        var sqlScript = "SELECT * FROM \"Livros\" l where l.\"Id\" = @Id LIMIT 100";
+        var sqlScript = "SELECT * FROM \"Livros\" l WHERE l.\"Id\" = @Id LIMIT 100";
 
         using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
         {
