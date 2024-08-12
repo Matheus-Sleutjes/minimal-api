@@ -37,6 +37,10 @@ public class LivroService : ILivroService
                     transaction.Rollback();
                     Console.WriteLine($"Erro ao executar o comando SQL: {ex.Message}");
                 }
+                finally
+                {
+                    connection.Close();
+                }
             }
         }
     }
